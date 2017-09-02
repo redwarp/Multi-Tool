@@ -1,0 +1,9 @@
+versions = [
+        appCompat  : '26.0.2',
+        crashlytics: '2.6.8',
+        espresso   : '3.0.1',
+        fabric     : '1.22.1',
+        kotlin     : '1.1.4-3',
+        rxAndroid  : '2.0.1',
+        rxJava     : '2.1.3'
+]
