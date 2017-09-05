@@ -24,52 +24,37 @@ class CompassListener(val context: Context) : SensorEventListener {
     private val sensorManager: SensorManager
         get() = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
-    fun getAngle(): Observable<Float> = publisher.debounce(16, TimeUnit.MILLISECONDS)
-            .lift(AverageAngleOperator(8))
+    fun getAngle(): Observable<Float> = publisher
+            .debounce(16, TimeUnit.MILLISECONDS)
+            .lift(AverageAngleOperator(1))
             .distinct()
             .map {
                 angleMod((-it * 360f / (2f * Math.PI)).toFloat())
             }
 
     fun resume() {
-        val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        val magneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
-        sensorManager.registerListener(this, magneticField,
-                SensorManager.SENSOR_DELAY_NORMAL, SensorManager.SENSOR_DELAY_UI)
+        val rotationVector = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+        sensorManager.registerListener(this, rotationVector, SensorManager.SENSOR_DELAY_UI)
     }
 
     fun pause() {
         sensorManager.unregisterListener(this)
     }
 
-    private var gravity: FloatArray? = null
-    private var geomagnetic: FloatArray? = null
-    private var azimut: Float = 0f
-    private val orientation = FloatArray(3)
-    private val R = FloatArray(9)
-    private val I = FloatArray(9)
+    val matrixFromVector = FloatArray(9)
+    val remapedMatrix = FloatArray(9)
+    val values = FloatArray(3)
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor == null) {
             return
         }
+        if (event.sensor?.type == Sensor.TYPE_ROTATION_VECTOR) {
+            SensorManager.getRotationMatrixFromVector(matrixFromVector, event.values)
+            SensorManager.remapCoordinateSystem(matrixFromVector, SensorManager.AXIS_Z, SensorManager.AXIS_Y, remapedMatrix)
+            SensorManager.getOrientation(remapedMatrix, values)
 
-        if (event.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
-            gravity = event.values
-        }
-        if (event.sensor?.type == Sensor.TYPE_MAGNETIC_FIELD) {
-            geomagnetic = event.values
-        }
-        if (gravity != null && geomagnetic != null) {
-
-            val success = SensorManager.getRotationMatrix(R, I, gravity, geomagnetic)
-            if (success) {
-                SensorManager.getOrientation(R, orientation)
-                azimut = orientation[0] // orientation contains: azimut, pitch and roll
-
-                publisher.onNext(azimut)
-            }
+            publisher.onNext(values[0])
         }
     }
 
