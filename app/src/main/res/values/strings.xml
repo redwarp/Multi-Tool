@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <string name="app_name" translatable="false">Multi Tool</string>
-
+    <string name="compass">Compass</string>
     <string name="direction_east">E</string>
     <string name="direction_north">N</string>
     <string name="direction_south">S</string>

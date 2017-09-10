@@ -105,7 +105,9 @@ class CompassView : View {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        angleAnimator.end()
+        if (angleAnimator.isRunning) {
+            angleAnimator.end()
+        }
     }
 
     fun setAngle(angle: Float, animated: Boolean) {
@@ -113,6 +115,7 @@ class CompassView : View {
             angleAnimator.cancel()
             val (fromAngle, toAngle) = findAngles(this.angle, angle)
             angleAnimator.setFloatValues(fromAngle, toAngle)
+            angleAnimator.duration = (Math.abs(toAngle - fromAngle) * 4f).toLong()
             angleAnimator.start()
         } else {
             this.angle = angle
