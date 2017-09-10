@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_compass.*
 import net.redwarp.app.multitool.R
 
 class CompassActivity : AppCompatActivity() {
@@ -14,7 +14,7 @@ class CompassActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_compass)
     }
 
     override fun onResume() {
