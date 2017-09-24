@@ -1,6 +1,7 @@
 package net.redwarp.app.multitool.compass
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
@@ -47,6 +48,7 @@ class CompassView : View {
         commonInit(attrs)
     }
 
+    @Suppress("unused")
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int,
                 defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
         commonInit(attrs)
@@ -55,6 +57,7 @@ class CompassView : View {
     private fun commonInit(attrs: AttributeSet?) {
         val obtainStyledAttributes = context.obtainStyledAttributes(attrs, intArrayOf(R.attr.colorPrimary, R.attr.colorPrimaryLight))
 
+        @SuppressLint("ResourceType")
         paint.color = obtainStyledAttributes.getColor(1, Color.WHITE)
         paint.isAntiAlias = true
         textPaint.color = obtainStyledAttributes.getColor(0, Color.BLACK)
@@ -90,6 +93,7 @@ class CompassView : View {
     }
 
     override fun draw(canvas: Canvas?) {
+        super.draw(canvas)
         if (canvas != null) {
             canvas.save()
             canvas.translate(width / 2f, height / 2f)
