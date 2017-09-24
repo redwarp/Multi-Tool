@@ -15,6 +15,11 @@ class CompassView : View {
             field = value % 360f
             invalidate()
         }
+    var backgroundAngle: Float = 0f
+        set(value) {
+            field = value % 360f
+            invalidate()
+        }
     private val angleAnimator: ValueAnimator = ValueAnimator()
 
     private val paint = Paint()
@@ -97,14 +102,21 @@ class CompassView : View {
         if (canvas != null) {
             canvas.save()
             canvas.translate(width / 2f, height / 2f)
-            canvas.drawCircle(0f, 0f, width / 2f, paint)
-            north.draw(canvas, textPaint)
-            east.draw(canvas, textPaint)
-            south.draw(canvas, textPaint)
-            west.draw(canvas, textPaint)
+            drawBackgroundCircle(canvas)
             arrow.draw(canvas)
             canvas.restore()
         }
+    }
+
+    private fun drawBackgroundCircle(canvas: Canvas) {
+        canvas.save()
+        canvas.rotate(backgroundAngle)
+        canvas.drawCircle(0f, 0f, width / 2f, paint)
+        north.draw(canvas, textPaint)
+        east.draw(canvas, textPaint)
+        south.draw(canvas, textPaint)
+        west.draw(canvas, textPaint)
+        canvas.restore()
     }
 
     override fun onDetachedFromWindow() {
