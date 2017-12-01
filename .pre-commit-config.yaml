@@ -1,0 +1,5 @@
+repos:
+- repo: https://github.com/maltzj/google-style-precommit-hook
+  sha: 029372aeb46f82e69ebe864caf2f88bfd83d7efb
+  hooks:
+    - id: google-style-java
