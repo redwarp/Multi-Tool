@@ -9,10 +9,10 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
-class CompassListener(val context: Context) : SensorEventListener {
+class CompassListener(private val context: Context) : SensorEventListener {
     companion object {
         private fun angleMod(value: Float): Float {
-            var workValue = value;
+            var workValue = value
             if (workValue < 0) {
                 workValue = value + 360f
             }
@@ -41,9 +41,9 @@ class CompassListener(val context: Context) : SensorEventListener {
         sensorManager.unregisterListener(this)
     }
 
-    val matrixFromVector = FloatArray(9)
-    val remapedMatrix = FloatArray(9)
-    val values = FloatArray(3)
+    private val matrixFromVector = FloatArray(9)
+    private val remapedMatrix = FloatArray(9)
+    private val values = FloatArray(3)
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor == null) {

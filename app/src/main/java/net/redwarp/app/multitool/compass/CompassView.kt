@@ -139,17 +139,17 @@ class CompassView : View {
     }
 
     private fun findAngles(angle1: Float, angle2: Float): Pair<Float, Float> {
-        if (angle1 > angle2) {
+        return if (angle1 > angle2) {
             if (Math.abs(angle2 - angle1) < Math.abs(angle2 + 360f - angle1)) {
-                return Pair(angle1, angle2)
+                Pair(angle1, angle2)
             } else {
-                return Pair(angle1, angle2 + 360f)
+                Pair(angle1, angle2 + 360f)
             }
         } else {
             if (Math.abs(angle2 - angle1) < Math.abs(angle2 - 360f - angle1)) {
-                return Pair(angle1, angle2)
+                Pair(angle1, angle2)
             } else {
-                return Pair(angle1, angle2 - 360f)
+                Pair(angle1, angle2 - 360f)
             }
         }
     }

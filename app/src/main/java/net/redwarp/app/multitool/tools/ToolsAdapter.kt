@@ -10,7 +10,7 @@ import net.redwarp.app.multitool.R
 class ToolsAdapter(val tools: List<Tool>) : RecyclerView.Adapter<ToolsAdapter.ViewHolder>() {
     var listener: ((Tool) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tool, parent, false)
 
         return ViewHolder(view)
